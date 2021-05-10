@@ -17,6 +17,10 @@ library(tidyverse)
 
 ## 1. Briefly name and describe the three fundamental components of a function.
 
+* body — the code that's acting on (or under the influence of) the formals
+* formals — the arguments supplied to the function; these control how the function is called
+* environment — the location of the function's variables or the context in which the function acts. 
+
 ## 2. Describe three different ways functions can be stored/applied and an example of when you might want to use each version.
 
 
@@ -115,7 +119,6 @@ means_sds <-
     }
 ```
 
-
 ```{r}
 means_sds_robust <- 
   function(df){
@@ -130,9 +133,8 @@ means_sds_robust <-
       return(means_sds(df))
   } else {
     means_sds(df)
-  }
-
-  }
+    }
+    }
 means_sds_robust(temp)
 ```
 
