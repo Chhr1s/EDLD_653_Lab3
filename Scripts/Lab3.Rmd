@@ -1,0 +1,16 @@
+---
+title: "EDLD_653_Lab3"
+author: "Christopher Loan"
+date: "5/10/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+
+```
+
