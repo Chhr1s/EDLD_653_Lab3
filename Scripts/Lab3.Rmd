@@ -23,6 +23,9 @@ library(tidyverse)
 
 ## 2. Describe three different ways functions can be stored/applied and an example of when you might want to use each version.
 
+* Anonymous functions — something in `map()` and `*apply()` variants. Useful when you want to do something small that you won't do again
+* User defined functions — make a function that you'll store in your local environment. Useful when you want to make a more complex function than anonymous functions, or if you need to integrate it into a larger/more complex process.
+* Calling functions made by others — in a script or a package. Useful when you want to do something that's already been done.
 
 # Part B: Applied practice
  
