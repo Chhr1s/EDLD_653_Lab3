@@ -31,11 +31,11 @@ mean_function <-
       missing_cases <- sum(is.na(test_vector))
       smaller_vector <- na.omit(test_vector)
       warning(
-        'Data contains ', 
+        'WARNING: Data contains ', 
         missing_cases, 
-        ' missing cases. Mean with NAs removed = ', 
-        sum(smaller_vector)/length(smaller_vector)
-      )
+        ' missing cases; 
+        value provided removes missing values.')
+      return(sum(smaller_vector)/length(smaller_vector))
     } else{
       sum(test_vector)/length(test_vector)
       }
@@ -48,7 +48,8 @@ mean_function <-
 temp <- tibble(
   v1 = 1:20, 
   v2 = 21:40, 
-  v3 = c(1:18, NA, NA)
+  v3 = c(1:18, NA, NA), 
+  v4 = letters[1:20]
   )
 
 mean_function(temp$v1)
@@ -58,7 +59,6 @@ mean(temp$v2)
 mean_function(temp$v3)
 mean(temp$v3, na.rm = T)
 ```
-
 
 ## 3. Turn the following three lines of code into three different functions. Make sure to give them meaningful names. Test the functions to make sure they provide the expected output.
 
@@ -78,18 +78,61 @@ proportional_rep <-
 ```
 
 ```{r}
-# normalize or z-score a vector so the mean is zero and sd is one
-(mtcars$mpg - mean(mtcars$mpg, na.rm = TRUE)) / 
-  sd(mtcars$mpg, na.rm = TRUE) 
+normalize_vector <- 
+  function(test_vector){
+    (test_vector - mean(test_vector, na.rm = TRUE)) / sd(test_vector, na.rm = TRUE) 
+}
 ```
 
 ## 4. Write a function that takes a data frame as its input and returns a data frame with only the numeric columns.
 
 ```{r}
-
+return_numeric_cols <- 
+  function(df){
+    index_vector <- 
+      unlist(lapply(df, is.numeric))
+    df[,index_vector]
+  }
 ```
-
 
 ## 5. Write a function that uses the function you wrote in Question 5, and returns a data frame with the mean and standard deviation of each numeric column. If columns are omitted (because they are non-numeric), print a message stating the specific columns that were not included.
 
+```{r}
+means_sds <- 
+  function(df){
+    data.frame(
+      rbind(
+        mean = sapply(
+          X = return_numeric_cols(df), 
+          FUN = mean, 
+          na.rm = T),
+        sd = sapply(
+          X = return_numeric_cols(df), 
+          FUN = sd, 
+          na.rm = T)
+        )
+      )
+    }
+```
+
+
+```{r}
+means_sds_robust <- 
+  function(df){
+    all_numeric <- 
+      unlist(lapply(temp, is.numeric))
+  
+    if (sum(all_numeric == FALSE) > 0){
+      message(sum(all_numeric == FALSE), 
+              ' row(s) removed: ', 
+              names(df[, !all_numeric])
+              )
+      return(means_sds(df))
+  } else {
+    means_sds(df)
+  }
+
+  }
+means_sds_robust(temp)
+```
 
